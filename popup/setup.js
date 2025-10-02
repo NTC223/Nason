@@ -22,7 +22,18 @@ function popup({
                 className: 'close',
                 child: [ createElement({ type: 'img', attributes: {src: btnImg.close}}) ],
                 events: {
-                    click: () => { closeDialog(id) }
+                    mousedown: (e) => {
+                        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                        img.src = btnImg['close-click']
+                        setTimeout(() => {
+                            img.src = btnImg.close
+                        }, 1000)
+                    },
+                    click: (e) => { 
+                        closeDialog(id) 
+                        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                        img.src = btnImg.close
+                    }
                 }
             }),
             createElement({
@@ -145,11 +156,36 @@ function seeMore(news) {
     gContent.setAttribute('id', 'news-detal')
     
     gContent.innerHTML = ''
-    gContent.appendChild(renderInnerTab())
+    gContent.appendChild(renderInnerTab('Chi tiết', checkLogin.get()))
     gContent.appendChild(renderDetal(news))
 }
-function logout() {
+function addImg() {
 
+}
+function write() {
+    
+}
+
+function isLogin() {
+    let check = false
+    return {
+        get() { return check },
+        set(value) { 
+            if(check != value) {
+                check = value
+                if(gContent.querySelector('.inner-tab')) {
+                    gContent.querySelector('.inner-tab').remove()
+                    gContent.insertBefore(renderInnerTab(gTabSelect.value(), value), gContent.firstElementChild)
+                } 
+            }
+        }
+    }
+}
+function login() {
+    checkLogin.set(confirm("BẠN CÓ PHẢI ADMIN KHÔNG:)))))"))
+}
+function logout() {
+    checkLogin.set(false)
 }
 
 function createElement({

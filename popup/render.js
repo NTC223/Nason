@@ -2,7 +2,7 @@ function renderPopup(content, popup, innerTab) {
     popup.innerHTML = ''
     const {id, ...data} = content
     id && popup.setAttribute('id', id)
-    innerTab && popup.appendChild(renderInnerTab(gTabSelect.value()))
+    innerTab && popup.appendChild(renderInnerTab(gTabSelect.value(), checkLogin.get()))
     Object.keys(data).forEach(key => {
         const element = 
         key == 'img' ? renderImg(data[key])
@@ -16,10 +16,10 @@ function renderPopup(content, popup, innerTab) {
         popup.appendChild(element)
     })
 }
-function renderInnerTab(tab) {
-    return createElement({
+function renderInnerTab(tab, isLogin) {
+    return isLogin ? createElement({
         type: 'div',
-        className: 'relative margin10 flex space-between',
+        className: 'inner-tab relative margin10 flex space-between',
         child: [
             createElement({
                 type: 'div',
@@ -28,7 +28,7 @@ function renderInnerTab(tab) {
                 [
                     createElement({ type: 'button', events: {click: () => {reload()}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.reload} })] }),
                     createElement({ type: 'button', events: {click: () => {add(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.add} })] })
-                ] : 
+                ] : tab == 'Chi tiết' &&
                 [
                     createElement({ type: 'button', events: {click: () => {addImg(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.addImg} })] }),
                     createElement({ type: 'button', events: {click: () => {write(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.write} })] })
@@ -39,8 +39,24 @@ function renderInnerTab(tab) {
                 className: 'flex gap10 align-center',
                 child: [
                     createElement({ type: 'p', text: 'nason@gmail.com' }),
-                    createElement({ type: 'button', events: {click: () => {logout()}}, child: [createElement({ type: 'img', attributes: {src: btnImg.logout} })] })
+                    createElement({ 
+                        type: 'button', 
+                        events: {click: () => {logout()}}, 
+                        child: [createElement({ type: 'img', attributes: {src: btnImg.logout} })] 
+                    })
                 ]
+            })
+        ]
+    }) : createElement({
+        type: 'div',
+        className: 'inner-tab relative margin10 flex justify-end',
+        child: [
+            createElement({ 
+                type: 'button', 
+                events: {click: () => {login()}}, 
+                child: [
+                    createElement({ type: 'img', attributes: {src: btnImg.login} })
+                ] 
             })
         ]
     })
@@ -132,27 +148,35 @@ function renderText(text) {
                     ]
                 })
             }
-            else if(typeof(txt) == 'object' && txt.id == 'iLink') {
-                return renderLink(txt, 'product-buy')
+            else if(typeof(txt) == 'object' && txt.id == 'iButton') {
+                return renderButton(txt, 'product-buy text-btn')
             }
         })
     })
 }
 function renderVideo(video, popup) {
+    const base = 'https://noembed.com/embed?url=https://www.youtube.com/watch?v=';
     return createElement({
         type: 'div',
-        child: video.map(vid =>
-            createElement({
+        child: video.map(vid => {
+            const title = createElement({ type: 'p', className: 'text-start'})
+            const url = base + vid
+            fetch(url)
+            .then(res => res.json())
+            .then(data => { title.innerHTML = data.title })
+            .catch(err => alert(err))
+            return createElement({
                 type: 'div',
                 className: 'item',
                 events: {
-                    click: () => { popup.innerHTML = playVideo(vid.link).outerHTML }
+                    click: () => { renderPopup({playVideo: vid}, popup) }
                 },
                 child: [
-                    createElement({ type: 'img', attributes: { src: getYtbImg(vid.id)} }),
-                    createElement({ type: 'p', text: vid.text })
+                    createElement({ type: 'img', attributes: { src: getYtbImg(vid), alt: 'loi'} }),
+                    title
                 ]
             })
+        }
         )
     })
 }
@@ -283,5 +307,31 @@ function renderDetal({imgs, title, time, content}) {
             child: [ createElement({type: 'p', className: 'title', text: title}) ],
             text: `<div class='news-detal__content'>${content}</div>`
         })]
+    })
+}
+function renderButton(btn, className) {
+    return createElement({
+        type: 'a',
+        className: `${className} relative flex center align-center`,
+        attributes: {
+            href: btn.link,
+            target: '_blank',
+            'data-before': btn.text
+        },
+        events: {
+            mousedown: (e) => {
+                const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                img.src = btnImg['btn-click']
+                setTimeout(() => {
+                    img.src = btnImg.btn
+                }, 1000)
+            },
+            click: (e) => {
+                const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                img.src = btnImg.btn
+            }
+        },
+        child: [ createElement({ type: 'img', attributes: {src: btn.image} }) ]
+
     })
 }

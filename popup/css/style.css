@@ -353,20 +353,22 @@ dialog::backdrop {
 }
 /* gioi thieu chung/ san pham */
 #general-popup, #product-popup {
-    max-width: 80dvw;
+    max-width: 90dvw;
     width: 1543px;
-    max-height: 85dvh;
+    max-height: 95dvh;
     height: 827px;
 }
 
 #map-popup, #guide-popup {
-    max-width: 80dvw;
+    max-width: 90dvw;
     width: 800px;
     height: 500px;
 }
 #share-popup {
     width: 500px;
-    max-height: 300px;
+    max-width: 90dvh;
+    height: max-content;
+    max-height: 400px;
 }
 #map-popup .popup-main, #share-popup .popup-main {overflow: hidden;}
 /* ban do */

@@ -1,8 +1,10 @@
-const image = './image/'
+const image = src + 'image/'
 const btnImg = {
     close: image + 'btn/close.png',
+    'close-click': image + 'btn/close-click.png',
     add: image + 'btn/add.png',
     reload: image + 'btn/reload.png',
+    login: image + 'btn/login.png',
     logout: image + 'btn/logout.png',
     addImg: image + 'btn/add-img.png',
     write: image + 'btn/write.png',
@@ -14,7 +16,8 @@ const btnImg = {
     setting: image + 'btn/setting.png',
     share: image + 'btn/share.png',
     auto: image + 'btn/auto.png',
-    buy: image + 'btn/buy.png'
+    btn: image + 'btn/btn.png',
+    'btn-click': image + 'btn/btn-click.png'
 }
 const iconImg = {
     address: image + 'icon/address.png',
@@ -70,8 +73,9 @@ var productData = {
                 id: 'cost'
             },
             {
-                id: 'iLink',
-                image: btnImg.buy,
+                id: 'iButton',
+                image: btnImg.btn,
+                text: 'Mua ngay',
                 link: 'https://www.nason.com.vn/den-nang-luong-treo-tran-ve-vang-heraeus',
             }
         ],
@@ -132,36 +136,12 @@ var generalData = {
     // video
     'Video': {
         video: [
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
-            {
-                id: 'EV-91JV4Fws',
-                link: 'https://www.youtube.com/embed/EV-91JV4Fws',
-                text:'NASON: Gốm Sứ Tâm Linh - Qua cảm nhận của các Nghệ sĩ'
-            },
+            'EV-91JV4Fws',
+            'EV-91JV4Fws',
+            'EV-91JV4Fws',
+            'EV-91JV4Fws',
+            'EV-91JV4Fws',
+            'EV-91JV4Fws',
         ],
         id: 'video'
     },

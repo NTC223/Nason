@@ -1,5 +1,7 @@
-const main = document.querySelector('#main')
+const main = document.body
 const address = 'Tòa nhà 132 Phố Lạc Nghiệp, Phường Thanh Nhàn, Quận Hai Bà Trưng, Hà Nội, Việt Nam'
+
+const checkLogin = isLogin()
 
 const gTabSelect = select(Object.keys(generalData), generalData)
 const pTabSelect = select(Object.keys(productTabs), productData)
@@ -33,11 +35,9 @@ tabs.forEach((t, index) => {
     })
 })
 general.addEventListener('toggle', () => {
-    if(general.open) {
-        selectTab(tabs, 0, gTabSelect, gContent)
-        document.documentElement.style.setProperty('--popup-main-height', `${gMain.clientHeight}px`)
-        document.documentElement.style.setProperty('--popup-main-width', `${gMain.clientWidth}px`)
-    }
+    selectTab(tabs, 0, gTabSelect, gContent)
+    document.documentElement.style.setProperty('--popup-main-height', `${gMain.clientHeight}px`)
+    document.documentElement.style.setProperty('--popup-main-width', `${gMain.clientWidth}px`)
 })
 
 // Bản đồ
@@ -134,11 +134,9 @@ underTabs.forEach((t, index) => {
     })
 })
 product.addEventListener('toggle', () => {
-    if(product.open) {
-        selectTab(underTabs, 0, pTabSelect, pContent)
-        product.style.setProperty('--popup-main-height', `${pMain.clientHeight}px`)
-        product.style.setProperty('--popup-main-width', `${pMain.clientWidth}px`)
-    }
+    selectTab(underTabs, 0, pTabSelect, pContent)
+    product.style.setProperty('--popup-main-height', `${pMain.clientHeight}px`)
+    product.style.setProperty('--popup-main-width', `${pMain.clientWidth}px`)
 })
 
 main.appendChild(general)

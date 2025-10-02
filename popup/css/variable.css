@@ -47,6 +47,7 @@
 .column { flex-direction: column; }
 .space-between { justify-content: space-between; }
 .space-around { justify-content: space-around; }
+.justify-end { justify-content: end;}
 .center { justify-content: center; }
 .align-center { align-items: center; }
 .align-end { align-items: end; }
@@ -72,7 +73,16 @@
     width: 2rem;
     height: 2rem;
 }
-
+.text-btn::before {
+    content: attr(data-before);
+    position:absolute;
+    top: 45%;
+    left: 50%;
+    translate: -50% -50%;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.1rem;
+}
 .item-style1 {
     border-radius: var(--radius);
     display: flex;
