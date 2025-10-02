@@ -1,0 +1,438 @@
+dialog::backdrop {
+  background-color: #00000050;
+  backdrop-filter: blur(1px);
+}
+/* popup */
+.popup {
+    padding: var(--popup-couter);
+    padding-top: calc(var(--popup-couter)*1.5);
+    border: none;
+    border-radius: var(--radius);
+
+    background-color: white;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 10;
+
+    button.close {
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        position: absolute;
+        top: calc(var(--popup-couter));
+        right: var(--popup-couter);
+        cursor: pointer;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .popup-content {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+    }
+}
+/* tieu de popup */
+.popup-title__h1{
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--title-color);
+}
+/* tab */
+.popup-tab {
+    padding: 5px 10px;
+    width: 100%;
+    overflow-x: scroll;
+    & > div {
+        width: max-content;
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        & > .item {
+            width: 150px;
+            min-width: fit-content;
+            border-radius: calc(var(--radius)/2);
+            overflow: hidden;
+            & > span {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                padding: 5px;
+                border-width: 2px;
+                border-style: solid;
+                border-image: linear-gradient(to top, var(--gradient1), var(--gradient3)) 1;
+        
+                font-weight: bold;
+                text-align: center;
+        
+                background: linear-gradient(to top, var(--gradient1), var(--gradient3));
+                background-clip: text;
+                color: transparent;
+                cursor: pointer;
+            }
+            &.select > span {
+                border-image: linear-gradient(to top, var(--gradient1), var(--gradient2)) 1;
+                background-clip: border-box;
+                background: linear-gradient(to top, var(--gradient1), var(--gradient2));
+                color: white;
+            }
+        }
+    }
+} 
+/* noi dung popup */
+.popup-main {
+    /* khung vien */
+    flex: 1;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    overflow-y: scroll;
+    position: relative;
+    /* noi dung chinh */
+    .popup-main__content {
+        width: 100%;
+        min-height: 100%;
+        height: max-content;
+        border-radius: inherit;
+        /* doi voi noi dung la doan van */
+        .text {
+            padding: 10px;
+            text-align: justify;
+        }
+    }
+    /* tab thong tin */
+    .popup-main__content#info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        & > * {
+            width: 100%;
+        }
+        & > img {
+            max-height: var(--popup-main-height);
+        }
+        /* lien he */
+        .contact {
+            margin: 5px;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            background-color: var(--contact-background);
+            color: var(--contact-color);
+
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            .title {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            & > div > img {
+                float: left;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    /* tab video/ tin tuc */
+    .popup-main__content#video, .popup-main__content#news{
+        padding: 10px 5%;
+    }
+    .popup-main__content#video > div:nth-child(2) {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px 100px;
+        .item {
+            width: 100%;
+            display: block;
+            cursor: pointer;
+            text-align: center;
+            img {
+                max-width: 100%;
+                border-radius: var(--radius);
+            }
+            p {
+                font-weight: 600;
+            }
+        }
+    }
+    /* tab khi chạy video */
+    &:has(> * >.iframe-video) {
+        background-color: var(--video-background);
+    }
+    .popup-main__content:has(> .iframe-video) {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .iframe-video {
+            width: max-content;
+            max-height: calc(var(--popup-main-height)*90/100);
+            max-width: 100%;
+            border: none;
+            aspect-ratio: 2/1;
+        }
+    }
+
+    /* tab chung nhan */
+    .popup-main__content#cetificate {
+        padding: 10px 5%;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+        gap: 5px;
+        .cetificate {
+            align-self: center;
+            max-width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border: 1px solid var(--cetificate-border);
+        }
+        .first > .cetificate {
+            aspect-ratio: 3/2;
+            border-radius: var(--radius);
+        }
+        
+        div:not(.first) > .cetificate {
+            aspect-ratio: 2/3;
+        }
+    }
+    
+    /* tab lien he/ hinh anh */
+    .popup-main__content#contact, .popup-main__content#image, .popup-main__content#shopping {
+        padding: 10px 0;
+        text-align: center;
+        overflow: hidden;
+        img {
+            max-height: calc(var(--popup-main-height)*90/100);
+        }
+    }
+    .popup-main__content#shopping a{
+        justify-content: end;
+    }
+
+    &:has(> .popup-main__content#upload-form) {
+        overflow: hidden;
+        .popup-main__content#upload-form {
+            height: 100%;
+            padding: 10px 5%;
+            font-weight: bold;
+
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            .form-btn {
+                min-width: fit-content;
+                border-radius: calc(var(--radius)/2);
+                background-color: var(--background);
+                overflow: hidden;
+                span {
+                    display: inline-block;
+                    padding: 5px;
+                    border-width: 3px;
+                    border-style: solid;
+                    border-image: linear-gradient(to top, var(--gradient1), var(--gradient3)) 1;
+            
+                    font-weight: bold;
+                    text-align: center;
+            
+                    background: linear-gradient(to top, var(--gradient1), var(--gradient3));
+                    background-clip: text;
+                    color: transparent;
+                }
+            }
+            .form-title {
+                height: 60px;
+                .form-close {
+                    position: absolute;
+                    top: 10px;
+                    right: 3%;
+                    span {border-width: 1px;}
+                }
+            }
+            & > div:nth-child(2) {
+                overflow-y: scroll;
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 10px;
+                    .form-input {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        label {
+                            color: var(--form-color);
+                        }
+                        input, div.textarea {
+                            padding: 5px;
+                            border-radius: var(--radius);
+                            background-color: #ffffff;
+                            border: 1px solid var(--form-color);
+                            font-weight: lighter;
+                        }
+                        div.textarea {min-height: 200px;}
+                    }
+                }
+            }
+        }
+    }
+    &:has(> .popup-main__content#news-detal) {
+        overflow: hidden;
+        .popup-main__content#news-detal {
+            padding: 10px 5%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            .title {
+                background: linear-gradient(to top, var(--gradient1), var(--gradient3));
+                background-clip: text;
+                color: transparent;
+                font-weight: bold;
+                text-align: center;
+                text-transform: uppercase;
+            }
+            .news-detal__content {
+                text-align: justify;
+            }
+        }
+    }
+}
+.under-tab {
+    margin: auto;
+    width: 90%;
+    .item {
+        width: 150px;
+        max-width: 20%;
+        height: 30px;
+        border-radius: 0 0 calc(var(--radius)/2) calc(var(--radius)/2);
+        overflow: hidden;
+        background: linear-gradient(to top, var(--gradient1), var(--gradient3));
+        position: relative;
+        cursor: pointer;
+        .content {
+            margin: 2px;
+            height: 26px;
+            padding: 2px;
+            background-color: #fff;
+            border-radius: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            img {
+                height: 100%;
+            }
+            .text {
+                font-size: .7rem;
+                background: linear-gradient(to top, var(--gradient1), var(--gradient3));
+                background-clip: text;
+                color: transparent;
+                font-weight: bold;
+            }
+        }
+    }
+    .item.select {
+        background: linear-gradient(to top, var(--gradient1), var(--gradient2));
+        .content {background-color: unset;}
+        img {
+            filter: brightness(0) invert(1);
+        }
+        .text {color: #fff}
+    }
+}
+/* gioi thieu chung/ san pham */
+#general-popup, #product-popup {
+    max-width: 80dvw;
+    width: 1543px;
+    max-height: 85dvh;
+    height: 827px;
+}
+
+#map-popup, #guide-popup {
+    max-width: 80dvw;
+    width: 800px;
+    height: 500px;
+}
+#share-popup {
+    width: 500px;
+    max-height: 300px;
+}
+#map-popup .popup-main, #share-popup .popup-main {overflow: hidden;}
+/* ban do */
+#map-popup .popup-main {
+    background-color: var(--map-background);
+    .popup-main__content {
+        padding: 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        iframe {
+            height: 200px;
+            max-width: 100%;
+        }
+        a {
+            font-weight: bold;
+            color: var(--map-color);
+        }
+        & > div {
+            display: flex;
+            align-items: center;
+            color: #404040;
+            gap: 10px;
+            img {filter: invert(.8);}
+            b {text-align: justify;}
+        }
+    }
+}
+/* huong dan */
+#guide-popup .popup-main {
+    padding: 30px 10%;
+    b {color: var(--map-color);}
+}
+/* chia se */
+#share-popup .popup-main {
+    width: max-content;
+    padding: 10px 20px;
+    margin: auto;
+    color: var(--share-color);
+    font-weight: bold;
+    a {text-decoration: none;}
+}
+
+/* san pham */
+#product-popup .popup-main .text {
+    text-align: justify;
+    .title, .name, .cost {
+        font-weight: bold;
+    }
+    .name {
+        text-align: center;
+    }
+    .name, .cost {
+        font-size: 1.1rem;
+        color: var(--map-color);
+    }
+    li {
+        list-style: none;
+        &::before {
+            content: '-';
+            margin-right: 5px;
+        }
+    }
+    .product-buy img {
+        width: 20%;
+        min-width: 120px;
+    }
+}

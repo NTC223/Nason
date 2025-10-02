@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    color: inherit;
+
+    line-height: 25px;
+    font-size: var(--font);
+    font-family: Arial, Helvetica, sans-serif;
+}
+body {
+    color: var(--color);
+}
+button {
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+}
+li {
+    list-style: none;
+}
+a {
+    color: inherit;
+}
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  font-weight: lighter;
+  pointer-events: none;
+  display: block;
+}
+[contenteditable=true]:empty:before, ::placeholder {
+    color: var(--placeholder-color);
+}
+::before {
+    display: inline-block;
+}
+
+.scrollbar-style1::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: var(--scroll-background);
+}
+.scrollbar-style1::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--scroll-thumb1), var(--scroll-thumb2));
+}
+
+.scrollbar-style2::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
