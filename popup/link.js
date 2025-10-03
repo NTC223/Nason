@@ -17,5 +17,6 @@ var firstScriptTag = document.getElementsByTagName('script')[0]
 ;[`${src}popup.js`, `${src}openDialog.js`].forEach(src => {
     const script = document.createElement('script')
     script.src = src
+    script.defer = true
     firstScriptTag.parentNode.appendChild(script)
 })
