@@ -62,11 +62,12 @@ function renderInnerTab(tab, isLogin) {
     })
 }
 function playVideo(link) {
+    const base = 'https://www.youtube.com/embed/'
     return createElement({
         type: 'iframe',
         className: 'iframe-video',
         attributes: {
-            src: `${link}?rel=0&controls=0`,
+            src: `${base}${link}?rel=0&controls=0`,
         }
     })
 }
@@ -310,6 +311,14 @@ function renderDetal({imgs, title, time, content}) {
     })
 }
 function renderButton(btn, className) {
+    const beforeClick = 
+    (e) => {
+        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+        img.src = btnImg['btn-click']
+        setTimeout(() => {
+            img.src = btnImg.btn
+        }, 1000)
+    }
     return createElement({
         type: 'a',
         className: `${className} relative flex center align-center`,
@@ -319,13 +328,8 @@ function renderButton(btn, className) {
             'data-before': btn.text
         },
         events: {
-            mousedown: (e) => {
-                const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
-                img.src = btnImg['btn-click']
-                setTimeout(() => {
-                    img.src = btnImg.btn
-                }, 1000)
-            },
+            mousedown: beforeClick,
+            touchstart: beforeClick,
             click: (e) => {
                 const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
                 img.src = btnImg.btn

@@ -39,4 +39,10 @@
         flex-direction: column;
         align-items: start;
     }
+    #share-popup .popup-main {
+        padding: 10px;
+        .popup-main__content {
+            gap: 10px;
+        }
+    }
 } 

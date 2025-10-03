@@ -82,7 +82,7 @@ var productData = {
         id: 'info'
     },
     video: {
-        playVideo: 'https://www.youtube.com/embed/Sr6quKyZEp8',
+        playVideo: 'Sr6quKyZEp8',
         id: 'video'
     },
     shopping: {

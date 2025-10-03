@@ -13,6 +13,14 @@ function popup({
             id: id
         }
     })
+    const beforeClose = 
+    (e) => {
+        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+        img.src = btnImg['close-click']
+        setTimeout(() => {
+            img.src = btnImg.close
+        }, 1000)
+    }
     const popupTitle = createElement({
         type: 'div',
         className: 'popup-title',
@@ -22,13 +30,8 @@ function popup({
                 className: 'close',
                 child: [ createElement({ type: 'img', attributes: {src: btnImg.close}}) ],
                 events: {
-                    mousedown: (e) => {
-                        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
-                        img.src = btnImg['close-click']
-                        setTimeout(() => {
-                            img.src = btnImg.close
-                        }, 1000)
-                    },
+                    mousedown: beforeClose,
+                    touchstart: beforeClose,
                     click: (e) => { 
                         closeDialog(id) 
                         const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild

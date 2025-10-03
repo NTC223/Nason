@@ -366,7 +366,7 @@ dialog::backdrop {
 }
 #share-popup {
     width: 500px;
-    max-width: 90dvh;
+    max-width: 90dvw;
     height: max-content;
     max-height: 400px;
 }
@@ -406,11 +406,22 @@ dialog::backdrop {
 /* chia se */
 #share-popup .popup-main {
     width: max-content;
+    max-width: 100%;
     padding: 10px 20px;
     margin: auto;
     color: var(--share-color);
     font-weight: bold;
-    a {text-decoration: none;}
+    .popup-main__content {
+        gap: 20px;
+        a { 
+            flex: 1;
+            text-decoration: none; 
+            p {
+                white-space: nowrap;
+                font-size: clamp(12px, 3.5vw, 1rem)
+            }
+        } 
+    }
 }
 
 /* san pham */
