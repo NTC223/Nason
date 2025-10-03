@@ -1,3 +1,4 @@
+var src = './popup/'
 const image = src + 'image/'
 const btnImg = {
     close: image + 'btn/close.png',
