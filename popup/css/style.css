@@ -369,7 +369,7 @@ dialog::backdrop {
     width: 500px;
     max-width: 90dvw;
     height: max-content;
-    min-height: 300px;
+    min-height: 200px;
     max-height: 400px;
 }
 #map-popup .popup-main, #share-popup .popup-main {overflow: hidden;}

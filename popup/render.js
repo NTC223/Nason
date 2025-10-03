@@ -319,6 +319,11 @@ function renderButton(btn, className) {
             img.src = btnImg.btn
         }, 1000)
     }
+    const afterOut = 
+    (e) => {
+        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+        img.src = btnImg.btn
+    }
     return createElement({
         type: 'a',
         className: `${className} relative flex center align-center`,
@@ -330,10 +335,12 @@ function renderButton(btn, className) {
         events: {
             mousedown: beforeClick,
             touchstart: beforeClick,
-            click: (e) => {
+            click: afterOut,
+            mouseleave: afterOut,
+            mouseover: (e) => {
                 const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
-                img.src = btnImg.btn
-            }
+                img.src = btnImg['btn-click']
+            },
         },
         child: [ createElement({ type: 'img', attributes: {src: btn.image} }) ]
 

@@ -36,6 +36,14 @@ function popup({
                         closeDialog(id) 
                         const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
                         img.src = btnImg.close
+                    },
+                    mouseover: (e) => {
+                        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                        img.src = btnImg['close-click']
+                    },
+                    mouseleave: (e) => { 
+                        const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
+                        img.src = btnImg.close
                     }
                 }
             }),
