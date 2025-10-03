@@ -67,7 +67,7 @@ function playVideo(link) {
         type: 'iframe',
         className: 'iframe-video',
         attributes: {
-            src: `${base}${link}?rel=0&controls=0`,
+            src: `${base}${link}?rel=0`,
         }
     })
 }
