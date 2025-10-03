@@ -9,7 +9,7 @@ var src = './popup/'
 
 var firstScriptTag = document.getElementsByTagName('script')[0]
 // liên kết js
-;[`${src}data.js`, `${src}setup.js`, `${src}render.js`].forEach(src => {
+;[`${src}setup.js`, `${src}render.js`].forEach(src => {
     const script = document.createElement('script')
     script.src = src
     firstScriptTag.parentNode.appendChild(script)
