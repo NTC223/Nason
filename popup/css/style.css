@@ -16,6 +16,7 @@ dialog::backdrop {
     left: 50%;
     translate: -50% -50%;
     z-index: 10;
+    overflow: hidden;
 
     button.close {
         width: 2rem;
@@ -368,6 +369,7 @@ dialog::backdrop {
     width: 500px;
     max-width: 90dvw;
     height: max-content;
+    min-height: 300px;
     max-height: 400px;
 }
 #map-popup .popup-main, #share-popup .popup-main {overflow: hidden;}
