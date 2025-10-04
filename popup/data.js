@@ -187,6 +187,7 @@ var generalData = {
     'Tin tức': {
         iNews: [
             {
+                id: 1,
                 imgs: [image + 'news1.png'],
                 title: 'Sức sống một con người',
                 time: '31/08/2025',
@@ -207,6 +208,7 @@ var generalData = {
                 `
             },
             {
+                id: 2,
                 imgs: [image + 'news2.png'],
                 time: '31/08/2025',
                 title: 'Sức sống một con người',
@@ -227,6 +229,7 @@ var generalData = {
                 `
             },
             {
+                id: 3,
                 imgs: [image + 'news3.png'],
                 time: '31/08/2025',
                 title: 'Sức sống một con người',
@@ -247,6 +250,7 @@ var generalData = {
                 `
             },
             {
+                id: 4,
                 imgs: [image + 'news4.png'],
                 time: '31/08/2025',
                 title: 'Sức sống một con người',
@@ -267,6 +271,7 @@ var generalData = {
                 `
             },
             {
+                id: 5,
                 imgs: [image + 'news3.png'],
                 time: '31/08/2025',
                 title: 'Sức sống một con người',

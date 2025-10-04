@@ -28,8 +28,8 @@ function renderInnerTab(tab, isLogin) {
                 [
                     createElement({ type: 'button', events: {click: () => {reload()}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.reload} })] }),
                     createElement({ type: 'button', events: {click: () => {add(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.add} })] })
-                ] : tab == 'Chi tiết' &&
-                [
+                ] : 
+                [ // tab: id cua bai viet
                     createElement({ type: 'button', events: {click: () => {addImg(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.addImg} })] }),
                     createElement({ type: 'button', events: {click: () => {write(tab)}}, child: [createElement({ type: 'img', className: 'square-button', attributes: {src: btnImg.write} })] })
                 ]
@@ -238,7 +238,7 @@ function renderNews(news) {
         )
     })
 }
-function renderForm({title, data, submit}) {
+function renderForm({title, data, submit}, value) {
     const s = gTabSelect
     return createElement({
         child: [
@@ -278,10 +278,11 @@ function renderForm({title, data, submit}) {
                                                 id: item.name, 
                                                 name: item.name, 
                                                 contenteditable: true, 
-                                                placeholder: item.placeholder
+                                                placeholder: item.placeholder,
                                             },
+                                            text: value ? value[item.name] : ''
                                         })
-                                        : createElement({ type: 'input', attributes: {type: item.type, id: item.name, name: item.name, placeholder: item.placeholder} })
+                                        : createElement({ type: 'input', attributes: {type: item.type, id: item.name, name: item.name, placeholder: item.placeholder, value: value ? value[item.name] : ''} })
                                     ]
                                 })
                             ), 

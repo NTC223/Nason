@@ -43,7 +43,7 @@ dialog::backdrop {
 /* tieu de popup */
 .popup-title__h1{
     max-width: 90%;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     font-size: 1.5rem;
     text-align: center;
     text-transform: uppercase;

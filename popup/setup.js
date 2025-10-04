@@ -155,7 +155,7 @@ function add(tab) {
                 type: 'file'
             },
         ],
-        uploadVideo
+        uploadNews
     } : {}
     gContent.setAttribute('id', 'upload-form')
     
@@ -165,18 +165,53 @@ function add(tab) {
 function uploadVideo() {
     
 }
+function uploadNews() {
+
+}
 function seeMore(news) {
     gContent.setAttribute('id', 'news-detal')
+    gContent.setAttribute('data-id', news.id)
     
     gContent.innerHTML = ''
     gContent.appendChild(renderInnerTab('Chi tiết', checkLogin.get()))
     gContent.appendChild(renderDetal(news))
 }
 function addImg() {
-
+    alert('ADD IMG? CHƯA BIẾT LÀM GÌ:)')
 }
-function write() {
-    
+function write(id) {
+    const news = generalData['Tin tức'].iNews.find(i => i.id = id) || {}
+    const form = {
+        title: 'Tạo tin tức mới',
+        data : [
+            {
+                name: 'news-title',
+                label: 'Tiêu đề',
+                type: 'text',
+                placeholder: 'Tiêu đề ảnh'
+            },
+            {
+                name: 'news-content',
+                label: 'Nội dung',
+                isArea: true,
+                placeholder: 'Nội dung chi tiết'
+            },
+            {
+                name: 'news-image',
+                label: 'Hình ảnh',
+                type: 'file'
+            },
+        ],
+        updateNews
+    }
+    const data = {
+        'news-title': news.title,
+        'news-content': news.content,
+        'news-image': news.imgs
+    }
+    gContent.setAttribute('id', 'upload-form')
+    gContent.innerHTML = ''
+    gContent.appendChild(renderForm(form, data))
 }
 
 function isLogin() {
@@ -187,8 +222,9 @@ function isLogin() {
             if(check != value) {
                 check = value
                 if(gContent.querySelector('.inner-tab')) {
+                    const tab = gContent.id == 'news-detal' ? gContent.getAttribute('data-id') : gTabSelect.value()
                     gContent.querySelector('.inner-tab').remove()
-                    gContent.insertBefore(renderInnerTab(gTabSelect.value(), value), gContent.firstElementChild)
+                    gContent.insertBefore(renderInnerTab(tab, value), gContent.firstElementChild)
                 } 
             }
         }
