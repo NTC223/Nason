@@ -33,6 +33,8 @@ function popup({
                     mousedown: beforeClose,
                     touchstart: beforeClose,
                     click: (e) => { 
+                        const video = document.querySelector(`#${id} .iframe-video`)
+                        video && video.setAttribute('src', video.src)
                         closeDialog(id) 
                         const img = e.target.tagName.toLowerCase() == 'img' ? e.target : e.target.firstElementChild
                         img.src = btnImg.close
