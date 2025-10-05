@@ -77,28 +77,26 @@ const guide = popup({
 'flex align-center space-between gap20'.split(' ').forEach(i => guide.querySelector('.popup-main__content').classList.add(i))
 
 // Chia sẻ link
-const shareContent = `
-    <a href="#" class="link flex column align-center">
-        <img src="${iconImg.link}" alt="loi">
-        <p>Copy Link</p>
-    </a>
-    <a href="#" class="link flex column align-center">
-        <img src="${iconImg.facebook}" alt="loi">
-        <p>Facebook</p>
-    </a>
-    <a href="#" class="link flex column align-center">
-        <img src="${iconImg.google}" alt="loi">
-        <p>Google</p>
-    </a>
-    <a href="#" class="link flex column align-center">
-        <img src="${iconImg.youtube}" alt="loi">
-        <p>Youtube</p>
-    </a>
-`
+const shareContent = ['Link', 'Facebook', 'Google', 'Youtube'].map(id => {
+    const txt = id == 'Link' ? 'Copy Link' : id
+    return createElement({
+        type: 'a',
+        className: 'link flex column align-center',
+        child: [
+            createElement({type: 'img', attributes: {src: iconImg[id.toLowerCase()]}}),
+            createElement({type: 'p', text: txt})
+        ],
+        events: {
+            click: () => {
+                copyLink(pageLink[id.toLowerCase()])
+            }
+        }
+    })
+})
 const share = popup({
     id: 'share-popup',
     title: 'Chia sẻ link',
-    innerHTML: shareContent
+    innerTab: shareContent
 })
 'flex align-center gap20'.split(' ').forEach(i => share.querySelector('.popup-main__content').classList.add(i))
 

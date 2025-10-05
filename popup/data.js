@@ -1,3 +1,4 @@
+// ảnh giao diện
 var src = './popup/'
 const image = src + 'image/'
 const btnImg = {
@@ -39,6 +40,13 @@ const img = {
     library: image + 'library.png',
     contact: image + 'contact.png',
     shopping: image + 'shopping.png'
+}
+// liên kết trang
+const pageLink = {
+    link: '#',
+    facebook: 'https://www.facebook.com/GOMSUNASON/',
+    google: 'https://www.nason.com.vn/',
+    youtube: 'https://www.youtube.com/channel/UCuSctf9wbN89E870iz2odKA'
 }
 
 var productTabs = {
@@ -116,7 +124,6 @@ const sanpham = {
     ],
     mean: 'Đôi bình thạch anh vẽ chàm kim 24K có điểm nhấn là họa tiết chim công, cùng với họa tiết hoa mẫu đơn, hoa đào giúp tô điểm cho bố cục nghệ thuật hoàn mỹ hơn và tạo nên sự cộng hưởng về phong thủy “Công danh tài lộc – Giàu sang phú quý – Hạnh phúc viên mãn”.'
 }
-
 
 var generalData = {
     // thong tin

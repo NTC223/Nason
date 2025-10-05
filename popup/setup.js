@@ -213,6 +213,14 @@ function write(id) {
     gContent.innerHTML = ''
     gContent.appendChild(renderForm(form, data))
 }
+function updateNews() {
+
+}
+
+function copyLink(link) {
+    navigator.clipboard.writeText(link)
+    .then(() => alert(`Đã sao chép liên kết: ${link}`))
+}
 
 function isLogin() {
     let check = false
