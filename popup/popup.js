@@ -7,10 +7,10 @@ const gTabSelect = select(Object.keys(generalData), generalData)
 const pTabSelect = select(Object.keys(productTabs), productData)
 // Giới thiệu chung
 const tabs = Object.keys(generalData).map((txt, index) => createElement({
-    type: 'p',
-    className: 'item',
+    type: 'div',
+    className: 'item radius-button',
     attributes: {'data-id': index},
-    text: `<span>${txt}</span>`
+    child: [createElement({type: 'div', text: `<p>${txt}</p>`})]
 }))
 const general = popup({
     id: 'general-popup',

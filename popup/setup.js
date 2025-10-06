@@ -26,6 +26,11 @@ function popup({
         className: 'popup-title',
         child: [
             createElement({
+                type: 'h1',
+                className: 'popup-title__h1',
+                text: title
+            }),
+            createElement({
                 type: 'button',
                 className: 'close',
                 child: [ createElement({ type: 'img', attributes: {src: btnImg.close}}) ],
@@ -49,11 +54,6 @@ function popup({
                     }
                 }
             }),
-            createElement({
-                type: 'h1',
-                className: 'popup-title__h1',
-                text: title
-            })
         ]
     })
 
@@ -78,6 +78,10 @@ function popup({
     }))
 
     return dialog
+}
+
+function zoomImg() {
+    
 }
 
 function select(list, data) {

@@ -191,7 +191,7 @@ function renderList(list) {
                     type: 'a',
                     className: 'cetificate',
                     attributes: {
-                        href: c.link,
+                        href: c.image,
                         target: '_blank',
                         style: `background: url('${c.image}') center/cover`
                     }
@@ -249,9 +249,10 @@ function renderForm({title, data, submit}, value) {
                     createElement({ type: 'p', className: 'form-title__p', text: title }),
                     createElement({ 
                         type: 'button', 
-                        className: 'form-close form-btn', 
+                        className: 'form-close form-btn radius-button', 
+                        attributes: {style: '--border-width: 1px'},
                         events: { click: () => { renderPopup(generalData[s.value()], gContent, true) }}, 
-                        child: [createElement({type: 'span', text: 'Hủy bỏ'})]
+                        child: [createElement({type: 'div', child: [createElement({type: 'p', text: 'Hủy bỏ'})]})]
                     })
                 ]
             }),
@@ -288,9 +289,12 @@ function renderForm({title, data, submit}, value) {
                             ), 
                             createElement({ 
                                 type: 'button', 
-                                className: 'form-submit form-btn', 
+                                className: 'form-submit form-btn radius-button', 
+                                attributes: {
+                                    style: '--height: 40px; --border-width: 3px;'
+                                },
                                 events: {click: () => {submit()}}, 
-                                child: [createElement({type: 'span', text: 'Tải lên'})]
+                                child: [createElement({type: 'div', child: [createElement({type: 'p', text: 'Tải lên'})]})]
                             })
                         ]
                     })

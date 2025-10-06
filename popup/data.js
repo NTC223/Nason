@@ -157,27 +157,27 @@ var generalData = {
     'Chứng nhận': {
         iList: [
             [
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti1.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti2.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti3.png'}
+                {image: image + 'ceti1.png'}, 
+                {image: image + 'ceti2.png'}, 
+                {image: image + 'ceti3.png'}
             ],
             [
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti4.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti5.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti6.png'}
+                {image: image + 'ceti4.png'}, 
+                {image: image + 'ceti5.png'}, 
+                {image: image + 'ceti6.png'}
             ],
             [
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti7.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti8.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti9.png'}
+                {image: image + 'ceti7.png'}, 
+                {image: image + 'ceti8.png'}, 
+                {image: image + 'ceti9.png'}
             ],
             [
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti10.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti11.png'}
+                {image: image + 'ceti10.png'}, 
+                {image: image + 'ceti11.png'}
             ],
             [
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti4.png'}, 
-                {link: 'https://www.nason.com.vn/chung-nhan-chat-luong', image: image + 'ceti5.png'}
+                {image: image + 'ceti4.png'}, 
+                {image: image + 'ceti5.png'}
             ],
         ],
         id: 'cetificate'

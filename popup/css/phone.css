@@ -20,6 +20,7 @@
         grid-template-columns: 1fr;
         & > img {
             width: 70%;
+            height: auto;
             margin: auto;
             border-radius: inherit;
         }
