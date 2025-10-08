@@ -20,6 +20,7 @@ dialog::backdrop {
 
     /* tieu de popup */
     .popup-title {
+        padding-bottom: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -55,7 +56,7 @@ dialog::backdrop {
 
 /* tab */
 .popup-tab {
-    padding: 20px 0 15px;
+    padding: 0 0 15px;
     width: 100%;
     overflow-x: scroll;
     & > div {
@@ -176,7 +177,7 @@ dialog::backdrop {
         gap: 30px;
         .cetificate {
             align-self: center;
-            width: 100%;
+            max-width: 100%;
             height: 230px;
             overflow: hidden;
             border: 1px solid var(--cetificate-border);

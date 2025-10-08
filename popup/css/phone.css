@@ -32,9 +32,6 @@
     }
     .popup-main .popup-main__content#cetificate {
         grid-template-columns: 1fr;
-        .cetificate {
-            height: 250px;
-        }
     }
     #guide-popup .popup-main .popup-main__content {
         flex-direction: column;
