@@ -120,6 +120,7 @@
 .radius-button {
     --border-width: 2px;
     --height: 35px;
+    --button-background: #fff;
     min-width: max-content;
     height: var(--height);
     padding: var(--border-width);
@@ -135,7 +136,7 @@
         width: 100%;
         height: 100%;
         padding: 0 10px;
-        background-color: #fff;
+        background-color: var(--button-background);
         border-radius: inherit;
         display: flex;
         align-items: center;

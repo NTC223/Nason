@@ -250,8 +250,12 @@ function renderForm({title, data, submit}, value) {
                     createElement({ 
                         type: 'button', 
                         className: 'form-close form-btn radius-button', 
-                        attributes: {style: '--border-width: 1px'},
-                        events: { click: () => { renderPopup(generalData[s.value()], gContent, true) }}, 
+                        attributes: {style: '--border-width: 1px; --button-background: var(--background);'},
+                        events: { 
+                            mousedown: (e) => {findParentTag(e.target, 'button')?.classList.add('select')},
+                            click: () => {renderPopup(generalData[s.value()], gContent, true)},
+                            mouseup: (e) => {findParentTag(e.target, 'button')?.classList.remove('select')}
+                        }, 
                         child: [createElement({type: 'div', child: [createElement({type: 'p', text: 'Hủy bỏ'})]})]
                     })
                 ]
@@ -291,9 +295,13 @@ function renderForm({title, data, submit}, value) {
                                 type: 'button', 
                                 className: 'form-submit form-btn radius-button', 
                                 attributes: {
-                                    style: '--height: 40px; --border-width: 3px;'
+                                    style: '--height: 40px; --border-width: 3px;--button-background: var(--background);'
                                 },
-                                events: {click: () => {submit()}}, 
+                                events: {
+                                    mousedown: (e) => {findParentTag(e.target, 'button')?.classList.add('select')},
+                                    click: () => {submit()},
+                                    mouseup: (e) => {findParentTag(e.target, 'button')?.classList.remove('select')}
+                                }, 
                                 child: [createElement({type: 'div', child: [createElement({type: 'p', text: 'Tải lên'})]})]
                             })
                         ]

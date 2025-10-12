@@ -136,7 +136,7 @@ function add(tab) {
                 placeholder: 'Mô tả chi tiết cho video'
             },
         ],
-        uploadVideo
+        submit: uploadVideo
     } : tab == 'Tin tức' ?
     {
         title: 'Tạo tin tức mới',
@@ -159,7 +159,7 @@ function add(tab) {
                 type: 'file'
             },
         ],
-        uploadNews
+        submit: uploadNews
     } : {}
     gContent.setAttribute('id', 'upload-form')
     
@@ -206,7 +206,7 @@ function write(id) {
                 type: 'file'
             },
         ],
-        updateNews
+        submit: updateNews
     }
     const data = {
         'news-title': news.title,
@@ -270,4 +270,12 @@ function createElement({
         element.addEventListener(ev, events[ev])
     }
     return element
+}
+function findParentTag(element, tagName) {
+    let e = element
+    while(e.nodeName != tagName.toLowerCase() && e.nodeName != tagName.toUpperCase()) {
+        e = e.parentElement
+        if(e.nodeName == 'html' || e.nodeName == 'HTML') return null
+    }
+    return e
 }
