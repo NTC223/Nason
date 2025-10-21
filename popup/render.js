@@ -188,11 +188,9 @@ function renderList(list) {
                 type: 'div',
                 className: i == 0 ? 'first flex column gap20' : 'flex column gap20',
                 child: item.map(c => createElement({
-                    type: 'a',
+                    type: 'div',
                     className: 'cetificate',
                     attributes: {
-                        href: c.image,
-                        target: '_blank',
                         style: `background: url('${c.image}') center/cover`
                     }
                 }))

@@ -137,7 +137,7 @@
         height: 100%;
         padding: 0 10px;
         background-color: var(--button-background);
-        border-radius: inherit;
+        border-radius: calc(calc(var(--radius)/2) - 1px);
         display: flex;
         align-items: center;
         justify-content: center;
