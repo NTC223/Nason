@@ -1,3 +1,34 @@
+// Theo dõi phiên bản dữ liệu
+window.dataVersion = 0;
+window.lastFetchedVersion = 0;
+
+// Hàm kiểm tra và cập nhật dữ liệu từ Supabase
+async function checkAndUpdateData(forceUpdate = false) {
+  if (!window.sb) return null;
+
+  try {
+    const { data, error } = await window.sb
+      .from("app_kv")
+      .select("value,version")
+      .eq("key", "generalData")
+      .single();
+
+    if (error) throw error;
+
+    // Chỉ cập nhật nếu có version mới hoặc force update
+    if (data?.version > window.dataVersion || forceUpdate) {
+      window.generalData = data?.value || {};
+      window.dataVersion = data?.version || 0;
+      window.lastFetchedVersion = window.dataVersion;
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error("Check data version error:", e);
+    return null;
+  }
+}
+
 function popup({ id, title, innerHTML, tab, innerTab, underTab }) {
   const dialog = createElement({
     type: "dialog",
@@ -116,7 +147,21 @@ function selectTab(list, index, s, popup) {
   list[s.get()].classList.remove("select");
   s.set(index);
   list[index].classList.add("select");
-  renderPopup(s.data(), popup, s.value() == "Video" || s.value() == "Tin tức");
+
+  // Kiểm tra version trước khi render
+  checkAndUpdateData().then((hasUpdate) => {
+    if (hasUpdate) {
+      // Nếu có update, cập nhật selector data
+      if (s?.setdata) {
+        s.setdata(window.generalData);
+      }
+    }
+    renderPopup(
+      s.data(),
+      popup,
+      s.value() == "Video" || s.value() == "Tin tức"
+    );
+  });
 }
 
 function getYtbImg(id) {
@@ -127,7 +172,29 @@ function closeDialog(id) {
   document.querySelector(`dialog#${id}`).close();
 }
 
-function reload() {}
+function reload() {
+  if (!window.sb) {
+    alert("Supabase chưa sẵn sàng");
+    return;
+  }
+
+  // Force reload data
+  checkAndUpdateData(true)
+    .then((hasUpdate) => {
+      if (hasUpdate && gTabSelect?.setdata) {
+        gTabSelect.setdata(window.generalData);
+      }
+      // Re-render current tab content
+      if (gContent) {
+        renderPopup(window.generalData[gTabSelect.value()], gContent, true);
+      }
+    })
+    .catch((e) => {
+      console.error("Reload error:", e);
+      alert("Không thể tải lại dữ liệu");
+    });
+}
+
 function add(tab) {
   const data =
     tab == "Video"
@@ -227,6 +294,7 @@ function uploadVideo() {
       .then(([a, b]) => {
         if (a.error) throw a.error;
         if (b.error) throw b.error;
+        window.generalData = newGeneral; // Cập nhật cache ngay lập tức
         alert("Đã thêm video");
         gContent && renderPopup(newGeneral["Video"], gContent, true);
       })
@@ -409,6 +477,7 @@ function updateNews() {
         .then(([a, b]) => {
           if (a.error) throw a.error;
           if (b.error) throw b.error;
+          window.generalData = newGeneral; // Cập nhật cache ngay lập tức
           alert("Đã cập nhật tin tức");
           gContent && renderPopup(newGeneral["Tin tức"], gContent, true);
         })
