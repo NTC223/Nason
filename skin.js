@@ -1,7 +1,7 @@
 // Garden Gnome Software - Skin
 // Pano2VR 7.1.8/20986
 // Filename: NASON.ggsk
-// Generated 2025-10-28T12:47:11
+// Generated 2025-10-28T12:54:48
 
 function pano2vrSkin(player,base) {
 	player.addVariable('floor', 1, 1.00, { ignoreInState: 0  });
