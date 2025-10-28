@@ -185,8 +185,133 @@ function add(tab) {
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(data));
 }
-function uploadVideo() {}
-function uploadNews() {}
+function uploadVideo() {
+  try {
+    if (!window.sb) {
+      alert("Supabase chưa sẵn sàng");
+      return;
+    }
+    const titleEl = document.getElementById("video-title");
+    const linkEl = document.getElementById("video-link");
+    const contentEl = document.getElementById("video-content");
+    const title = titleEl?.value?.trim() || "";
+    const link = linkEl?.value?.trim() || "";
+    const desc = contentEl?.innerHTML || "";
+
+    const vid = extractYouTubeId(link);
+    if (!vid) {
+      alert("URL YouTube không hợp lệ");
+      return;
+    }
+
+    const gd = window.generalData || {};
+    const videoArr =
+      gd["Video"] && Array.isArray(gd["Video"].video)
+        ? gd["Video"].video.slice()
+        : [];
+    if (!videoArr.includes(vid)) videoArr.unshift(vid);
+    const newGeneral = {
+      ...gd,
+      ["Video"]: { ...(gd["Video"] || {}), video: videoArr },
+    };
+
+    // Lưu metadata video và generalData vào Supabase
+    const saves = [];
+    saves.push(
+      window.sb.from("videos").upsert({ id: vid, title, description: desc })
+    );
+    saves.push(
+      window.sb.from("app_kv").upsert({ key: "generalData", value: newGeneral })
+    );
+    Promise.all(saves)
+      .then(([a, b]) => {
+        if (a.error) throw a.error;
+        if (b.error) throw b.error;
+        alert("Đã thêm video");
+        gContent && renderPopup(newGeneral["Video"], gContent, true);
+      })
+      .catch((e) => alert(e.message || "Lỗi lưu video"));
+  } catch (e) {
+    alert(e.message || "Lỗi không xác định");
+  }
+}
+function uploadNews() {
+  try {
+    if (!window.sb) {
+      alert("Supabase chưa sẵn sàng");
+      return;
+    }
+    const titleEl = document.getElementById("news-title");
+    const contentArea = document.getElementById("news-content");
+    const imageInput = document.getElementById("news-image");
+    const title = titleEl?.value?.trim() || "";
+    const content = contentArea?.innerHTML || "";
+    const file = imageInput?.files && imageInput.files[0];
+    if (!title || !content) {
+      alert("Thiếu tiêu đề hoặc nội dung");
+      return;
+    }
+
+    const saveNews = (imageUrl) => {
+      const gd = window.generalData || {};
+      const list =
+        gd["Tin tức"] && Array.isArray(gd["Tin tức"].iNews)
+          ? gd["Tin tức"].iNews.slice()
+          : [];
+      const nextId =
+        list.reduce((m, n) => Math.max(m, Number(n.id) || 0), 0) + 1 || 1;
+      const time = formatVNDate(new Date());
+      const news = {
+        id: nextId,
+        imgs: imageUrl ? [imageUrl] : [],
+        time,
+        title,
+        content,
+      };
+      list.unshift(news);
+      const newGeneral = {
+        ...gd,
+        ["Tin tức"]: { ...(gd["Tin tức"] || {}), iNews: list },
+      };
+      const updates = [];
+      updates.push(window.sb.from("news").upsert({ id: nextId, ...news }));
+      updates.push(
+        window.sb
+          .from("app_kv")
+          .upsert({ key: "generalData", value: newGeneral })
+      );
+      Promise.all(updates)
+        .then(([a, b]) => {
+          if (a.error) throw a.error;
+          if (b.error) throw b.error;
+          alert("Đã tạo tin tức");
+          gContent && renderPopup(newGeneral["Tin tức"], gContent, true);
+        })
+        .catch((e) => {
+          console.error("uploadNews Supabase error:", e);
+          alert(e && e.message ? e.message : "Lỗi lưu tin tức");
+        });
+    };
+
+    if (file) {
+      // Fallback: compress to Data URL and store directly in RTDB
+      compressImage(file, 1200, 800, 0.75)
+        .then((dataUrl) => {
+          if (dataUrl.length > 2_000_000) {
+            alert("Ảnh sau nén vẫn quá lớn, hãy chọn ảnh nhỏ hơn (~<300KB).");
+            return;
+          }
+          saveNews(dataUrl);
+        })
+        .catch(() => alert("Không xử lý được ảnh"));
+    } else {
+      saveNews("");
+    }
+  } catch (e) {
+    console.error("uploadNews error:", e);
+    alert(e && e.message ? e.message : "Lỗi không xác định");
+  }
+}
 function seeMore(news) {
   gContent.setAttribute("id", "news-detal");
   gContent.setAttribute("data-id", news.id);
@@ -232,7 +357,126 @@ function write(id) {
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(form, data));
 }
-function updateNews() {}
+function updateNews() {
+  try {
+    if (!window.sb) {
+      alert("Supabase chưa sẵn sàng");
+      return;
+    }
+    const titleEl = document.getElementById("news-title");
+    const contentArea = document.getElementById("news-content");
+    const imageInput = document.getElementById("news-image");
+    const newTitle = titleEl?.value?.trim() || "";
+    const newContent = contentArea?.innerHTML || "";
+    const file = imageInput?.files && imageInput.files[0];
+    if (!newTitle || !newContent) {
+      alert("Thiếu tiêu đề hoặc nội dung");
+      return;
+    }
+
+    const gd = window.generalData || {};
+    const list =
+      gd["Tin tức"] && Array.isArray(gd["Tin tức"].iNews)
+        ? gd["Tin tức"].iNews.slice()
+        : [];
+
+    // Try to find editing target by exact title match (fallback approach)
+    let idx = list.findIndex(
+      (n) => n && typeof n.title === "string" && n.title.trim() === newTitle
+    );
+    if (idx === -1) idx = 0; // fallback to first if not found
+
+    const applyUpdate = (imageUrl) => {
+      const item = list[idx] || {};
+      const updated = { ...item, title: newTitle, content: newContent };
+      if (imageUrl) {
+        updated.imgs = [imageUrl];
+      }
+      list[idx] = updated;
+      const newGeneral = {
+        ...gd,
+        ["Tin tức"]: { ...(gd["Tin tức"] || {}), iNews: list },
+      };
+      const newsId = updated.id || idx + 1;
+      const updates = [];
+      updates.push(window.sb.from("news").upsert({ id: newsId, ...updated }));
+      updates.push(
+        window.sb
+          .from("app_kv")
+          .upsert({ key: "generalData", value: newGeneral })
+      );
+      Promise.all(updates)
+        .then(([a, b]) => {
+          if (a.error) throw a.error;
+          if (b.error) throw b.error;
+          alert("Đã cập nhật tin tức");
+          gContent && renderPopup(newGeneral["Tin tức"], gContent, true);
+        })
+        .catch((e) => {
+          console.error("updateNews Supabase error:", e);
+          alert(e && e.message ? e.message : "Lỗi cập nhật tin tức");
+        });
+    };
+
+    if (file) {
+      compressImage(file, 1200, 800, 0.75)
+        .then((dataUrl) => {
+          if (dataUrl.length > 2_000_000) {
+            alert("Ảnh sau nén vẫn quá lớn, hãy chọn ảnh nhỏ hơn (~<300KB).");
+            return;
+          }
+          applyUpdate(dataUrl);
+        })
+        .catch(() => alert("Không xử lý được ảnh"));
+    } else {
+      applyUpdate("");
+    }
+  } catch (e) {
+    console.error("updateNews error:", e);
+    alert(e && e.message ? e.message : "Lỗi không xác định");
+  }
+}
+
+function extractYouTubeId(url) {
+  if (!url) return "";
+  // Supports full and short URLs
+  const m = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/);
+  return m && m[1] ? m[1] : "";
+}
+function formatVNDate(d) {
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+}
+
+function compressImage(file, maxWidth, maxHeight, quality) {
+  return new Promise((resolve, reject) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          const ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(width * ratio);
+          canvas.height = Math.round(height * ratio);
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL("image/jpeg", quality);
+          resolve(dataUrl);
+        };
+        img.onerror = reject;
+        img.src = String(reader.result || "");
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
 function copyLink(link) {
   navigator.clipboard
@@ -272,8 +516,8 @@ function login() {
   }
 }
 function logout() {
-  if (window.firebaseAuth) {
-    window.firebaseAuth
+  if (window.sb) {
+    window.sb.auth
       .signOut()
       .then(() => {
         checkLogin.set(false);

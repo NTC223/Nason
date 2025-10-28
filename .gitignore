@@ -1,6 +1,7 @@
 .env
 .env.*
 popup/firebase.config.js
+popup/supabase.config.js
 .DS_Store
 Thumbs.db
 *.log

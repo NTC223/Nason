@@ -85,18 +85,17 @@
       alert("Vui lòng nhập email và mật khẩu");
       return;
     }
-    if (!window.firebaseAuth) {
-      alert("Firebase chưa sẵn sàng");
+    if (!window.sb) {
+      alert("Supabase chưa sẵn sàng");
       return;
     }
-    firebaseAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
+    window.sb.auth
+      .signInWithPassword({ email, password })
+      .then(({ data, error }) => {
+        if (error) throw error;
         closeDialog("login-popup");
       })
-      .catch((err) => {
-        alert(err.message || "Đăng nhập thất bại");
-      });
+      .catch((err) => alert(err.message || "Đăng nhập thất bại"));
   }
 
   // Expose

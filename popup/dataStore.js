@@ -1,33 +1,23 @@
 (function () {
-  if (!window.firebaseDb) {
-    return;
-  }
+  if (!window.sb) return;
+  const client = window.sb;
 
-  const db = window.firebaseDb;
-
-  function applyData(docId, assign) {
-    const ref = db.collection("app").doc(docId);
-    ref
-      .get()
-      .then((snap) => {
-        if (snap.exists) {
-          const data = snap.data();
-          assign(data);
-        }
-      })
-      .catch((e) => console.warn("Firestore read error:", docId, e));
-
-    // Realtime updates
+  async function loadKv(key, assign) {
     try {
-      ref.onSnapshot((snap) => {
-        if (snap.exists) {
-          assign(snap.data());
-        }
-      });
-    } catch (_) {}
+      const { data, error } = await client
+        .from("app_kv")
+        .select("value")
+        .eq("key", key)
+        .single();
+      if (error) throw error;
+      const val = data?.value || {};
+      assign(val);
+    } catch (e) {
+      console.warn("Supabase load error:", key, e);
+    }
   }
 
-  applyData("generalData", (data) => {
+  loadKv("generalData", (data) => {
     window.generalData = data;
     if (
       typeof gTabSelect !== "undefined" &&
@@ -38,7 +28,7 @@
     }
   });
 
-  applyData("productData", (data) => {
+  loadKv("productData", (data) => {
     window.productData = data;
     if (
       typeof pTabSelect !== "undefined" &&
@@ -49,7 +39,7 @@
     }
   });
 
-  applyData("productTabs", (data) => {
+  loadKv("productTabs", (data) => {
     window.productTabs = data;
   });
 })();

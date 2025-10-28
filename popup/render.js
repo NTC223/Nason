@@ -330,7 +330,11 @@ function renderNews(news) {
         type: "div",
         className: "news-item item-style1",
         text: `
-                    <img src='${n.imgs[0]}' alt='Không có ảnh'/>
+                    ${
+                      n.imgs && n.imgs[0]
+                        ? `<img src='${n.imgs[0]}' alt='Không có ảnh'/>`
+                        : ""
+                    }
                     <div>
                         <p class='title upper'>${n.title}</p>
                         <p class='time'>${n.time}</p>

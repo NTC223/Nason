@@ -17,10 +17,14 @@
 
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const rtdb = firebase.database ? firebase.database() : null;
+  const storage = firebase.storage ? firebase.storage() : null;
 
   // Global helpers
   window.firebaseAuth = auth;
   window.firebaseDb = db;
+  window.firebaseRtdb = rtdb;
+  window.firebaseStorage = storage;
 
   // Listen auth state and reflect to UI state (checkLogin)
   auth.onAuthStateChanged((user) => {

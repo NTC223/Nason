@@ -50,16 +50,12 @@
       <br />Loading...<br /><br />
     </div>
     <script src="./popup/data.js"></script>
-    <!-- Firebase config (ignored in git). Copy from popup/firebase.config.example.js to popup/firebase.config.js -->
-    <script src="./popup/firebase.config.js"></script>
-    <!-- Firebase SDK (compat) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-    <!-- Firebase init and auth UI -->
-    <script src="./popup/firebase.js"></script>
+    <!-- Supabase SDK and config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="./popup/supabase.config.js"></script>
+    <script src="./popup/supabase.js"></script>
     <script src="./popup/auth.js"></script>
-    <!-- Optional: Firestore-backed data loader (overrides defaults if available) -->
+    <!-- Data loader (overrides defaults if available) -->
     <script src="./popup/dataStore.js"></script>
     <script src="./popup/setup.js"></script>
     <script src="./popup/render.js"></script>
