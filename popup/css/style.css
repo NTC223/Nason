@@ -200,7 +200,7 @@ dialog::backdrop {
         text-align: center;
         overflow: hidden;
         img {
-            max-height: var(--popup-main-height);
+            height: var(--popup-main-height);
         }
     }
     .popup-main__content#shopping a{
