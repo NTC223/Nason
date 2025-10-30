@@ -339,7 +339,6 @@ dialog::backdrop {
     max-width: 90dvw;
     height: max-content;
     min-height: 200px;
-    max-height: 400px;
     .popup-main {overflow: hidden;}
 }
 /* ban do */
