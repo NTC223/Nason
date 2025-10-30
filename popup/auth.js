@@ -16,61 +16,67 @@
     content.appendChild(
       createElement({
         type: "div",
-        className: "form-login",
+        className: "form",
         child: [
           createElement({
-            type: "div",
-            className: "form-input",
-            child: [
-              createElement({
-                type: "label",
-                attributes: { for: "login-email" },
-                text: "Email",
-              }),
-              createElement({
-                type: "input",
-                attributes: {
-                  type: "email",
-                  id: "login-email",
-                  placeholder: "email@example.com",
-                },
-              }),
-            ],
-          }),
-          createElement({
-            type: "div",
-            className: "form-input",
-            child: [
-              createElement({
-                type: "label",
-                attributes: { for: "login-password" },
-                text: "Mật khẩu",
-              }),
-              createElement({
-                type: "input",
-                attributes: {
-                  type: "password",
-                  id: "login-password",
-                  placeholder: "••••••••",
-                },
-              }),
-            ],
-          }),
-          createElement({
-            type: "button",
-            className: "form-btn radius-button",
-            attributes: {
-              style:
-                "--height: 40px; --border-width: 3px;--button-background: var(--background);",
-            },
-            events: { click: tryLogin },
+            type: 'div',
+            className: 'content',
             child: [
               createElement({
                 type: "div",
-                child: [createElement({ type: "p", text: "Đăng nhập" })],
+                className: "form-input",
+                child: [
+                  createElement({
+                    type: "label",
+                    attributes: { for: "login-email" },
+                    text: "Email",
+                  }),
+                  createElement({
+                    type: "input",
+                    attributes: {
+                      type: "email",
+                      id: "login-email",
+                      placeholder: "email@example.com",
+                    },
+                  }),
+                ],
               }),
-            ],
-          }),
+              createElement({
+                type: "div",
+                className: "form-input",
+                child: [
+                  createElement({
+                    type: "label",
+                    attributes: { for: "login-password" },
+                    text: "Mật khẩu",
+                  }),
+                  createElement({
+                    type: "input",
+                    attributes: {
+                      type: "password",
+                      id: "login-password",
+                      placeholder: "••••••••",
+                    },
+                  }),
+                ],
+              }),
+              createElement({
+                type: "button",
+                className: "form-btn radius-button",
+                attributes: {
+                  style:
+                    "--height: 40px; --border-width: 3px;--button-background: var(--background);",
+                },
+                events: { click: tryLogin },
+                child: [
+                  createElement({
+                    type: "div",
+                    child: [createElement({ type: "p", text: "Đăng nhập" })],
+                  }),
+                ],
+              }),
+            ]
+          })
         ],
       })
     );

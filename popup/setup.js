@@ -247,7 +247,8 @@ function add(tab) {
           submit: uploadNews,
         }
       : {};
-  gContent.setAttribute("id", "upload-form");
+  gContent.setAttribute("id", "");
+  gContent.classList.add('form')
 
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(data));
@@ -421,7 +422,8 @@ function write(id) {
     "news-content": news.content,
     "news-image": news.imgs,
   };
-  gContent.setAttribute("id", "upload-form");
+  gContent.setAttribute("id", "");
+  gContent.classList.add('form')
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(form, data));
 }

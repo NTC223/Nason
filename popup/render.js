@@ -310,10 +310,10 @@ function renderList(list) {
     ),
   });
 }
-function renderLink(link, name) {
+function renderLink(link) {
   return createElement({
     type: "a",
-    className: `${name} flex center align-center`,
+    className: `link-to-nason flex center align-center`,
     attributes: {
       href: link.link,
       target: "_blank",
@@ -383,6 +383,7 @@ function renderForm({ title, data, submit }, value) {
                 findParentTag(e.target, "button")?.classList.add("select");
               },
               click: () => {
+                gContent.classList.remove('form')
                 renderPopup(generalData[s.value()], gContent, true);
               },
               mouseup: (e) => {

@@ -43,4 +43,12 @@
             gap: 10px;
         }
     }
+    .popup-main .popup-main__content#shopping a {
+        justify-content: end;
+    }
 } 
+@media only screen and ((min-width: 1025px) and (min-device-width: 1025px)) {
+    :root {
+        --font: calc(10px + 0.5vw);
+    }
+}
