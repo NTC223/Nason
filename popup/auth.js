@@ -17,6 +17,9 @@
       createElement({
         type: "div",
         className: "form",
+        attributes: {
+          style: 'height: max-content'
+        },
         child: [
           createElement({
             type: 'div',
