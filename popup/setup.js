@@ -144,6 +144,7 @@ function select(list, data) {
   };
 }
 function selectTab(list, index, s, popup) {
+  popup.classList.contains('form') && popup.classList.remove('form')
   list[s.get()].classList.remove("select");
   s.set(index);
   list[index].classList.add("select");

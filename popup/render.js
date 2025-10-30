@@ -73,7 +73,7 @@ function renderInnerTab(tab, isLogin) {
                       type: "button",
                       events: {
                         click: () => {
-                          addImg(tab);
+                          addImg(Number.parseInt(gContent.getAttribute('data-id')));
                         },
                       },
                       child: [
@@ -88,7 +88,7 @@ function renderInnerTab(tab, isLogin) {
                       type: "button",
                       events: {
                         click: () => {
-                          write(tab);
+                          write(Number.parseInt(gContent.getAttribute('data-id')));
                         },
                       },
                       child: [
@@ -455,6 +455,7 @@ function renderForm({ title, data, submit }, value) {
                     findParentTag(e.target, "button")?.classList.add("select");
                   },
                   click: () => {
+                    gContent.classList.remove('form')
                     submit();
                   },
                   mouseup: (e) => {
