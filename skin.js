@@ -1,7 +1,7 @@
 // Garden Gnome Software - Skin
 // Pano2VR 7.1.8/20986
 // Filename: NASON.ggsk
-// Generated 2025-10-28T12:54:48
+// Generated 2025-10-30T07:41:04
 
 function pano2vrSkin(player,base) {
 	player.addVariable('floor', 1, 1.00, { ignoreInState: 0  });
@@ -385,7 +385,7 @@ function pano2vrSkin(player,base) {
 		hs ='';
 		hs+='height : 291px;';
 		hs+='position : absolute;';
-		hs+='right : 13px;';
+		hs+='right : 15px;';
 		hs+='top : 30px;';
 		hs+='visibility : hidden;';
 		hs+='width : 53px;';
@@ -432,8 +432,8 @@ function pano2vrSkin(player,base) {
 		hs ='';
 		hs+='cursor : pointer;';
 		hs+='height : 52px;';
-		hs+='left : 0px;';
 		hs+='position : absolute;';
+		hs+='right : 0px;';
 		hs+='top : 60px;';
 		hs+='visibility : inherit;';
 		hs+='width : 52px;';
@@ -490,8 +490,8 @@ function pano2vrSkin(player,base) {
 		hs ='';
 		hs+='cursor : pointer;';
 		hs+='height : 52px;';
-		hs+='left : 0px;';
 		hs+='position : absolute;';
+		hs+='right : 0px;';
 		hs+='top : 120px;';
 		hs+='visibility : inherit;';
 		hs+='width : 52px;';
@@ -555,8 +555,8 @@ function pano2vrSkin(player,base) {
 		hs ='';
 		hs+='cursor : pointer;';
 		hs+='height : 52px;';
-		hs+='left : 0px;';
 		hs+='position : absolute;';
+		hs+='right : 0px;';
 		hs+='top : 180px;';
 		hs+='visibility : inherit;';
 		hs+='width : 52px;';
