@@ -19,7 +19,15 @@ const btnImg = {
     share: image + 'btn/share.png',
     auto: image + 'btn/auto.png',
     btn: image + 'btn/btn.png',
-    'btn-click': image + 'btn/btn-click.png'
+    'btn-click': image + 'btn/btn-click.png',
+    product360: image + 'btn/product_360.png',
+    'product360-click': image + 'btn/product_360_click.png',
+    productVideo: image + 'btn/product_video.png',
+    'productVideo-click': image + 'btn/product_video_click.png',
+    productCart: image + 'btn/product_cart.png',
+    'productCart-click': image + 'btn/product_cart_click.png',
+    productContact: image + 'btn/product_contact.png',
+    'productContact-click': image + 'btn/product_contact_click.png'
 }
 const iconImg = {
     address: image + 'icon/address.png',

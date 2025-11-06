@@ -177,22 +177,28 @@ function select(list, data) {
   };
 }
 function selectTab(list, index, s, popup, dataset) {
+  popup.classList.contains("form") && popup.classList.remove("form");
   list[s.get()].classList.remove("select");
   s.set(index);
   list[index].classList.add("select");
 
   // Kiểm tra version trước khi render
-  checkAndUpdateData(false, dataset === "product" ? "product" : "general").then((hasUpdate) => {
-    if (hasUpdate) {
-      // Nếu có update, cập nhật selector data đúng nguồn
-      if (s?.setdata) s.setdata(dataset === "product" ? window.productData : window.generalData);
+  checkAndUpdateData(false, dataset === "product" ? "product" : "general").then(
+    (hasUpdate) => {
+      if (hasUpdate) {
+        // Nếu có update, cập nhật selector data đúng nguồn
+        if (s?.setdata)
+          s.setdata(
+            dataset === "product" ? window.productData : window.generalData
+          );
+      }
+      renderPopup(
+        s.data(),
+        popup,
+        s.value() == "Video" || s.value() == "Tin tức"
+      );
     }
-    renderPopup(
-      s.data(),
-      popup,
-      s.value() == "Video" || s.value() == "Tin tức"
-    );
-  });
+  );
 }
 
 function getYtbImg(id) {
@@ -278,7 +284,8 @@ function add(tab) {
           submit: uploadNews,
         }
       : {};
-  gContent.setAttribute("id", "upload-form");
+  gContent.setAttribute("id", "");
+  gContent.classList.add("form");
 
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(data));
@@ -452,7 +459,8 @@ function write(id) {
     "news-content": news.content,
     "news-image": news.imgs,
   };
-  gContent.setAttribute("id", "upload-form");
+  gContent.setAttribute("id", "");
+  gContent.classList.add("form");
   gContent.innerHTML = "";
   gContent.appendChild(renderForm(form, data));
 }

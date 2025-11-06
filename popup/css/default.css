@@ -5,8 +5,8 @@
 
     color: inherit;
 
-    line-height: 25px;
     font-size: var(--font);
+    line-height: 2rem;
     font-family: Arial, Helvetica, sans-serif;
 }
 body {

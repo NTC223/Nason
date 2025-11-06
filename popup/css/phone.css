@@ -25,6 +25,9 @@
             border-radius: inherit;
         }
     }
+    #guide-popup .popup-main {
+        overflow-y: scroll;
+    }
     .popup-main .popup-main__content#video {
         & > div:first-child p {
             display: none;
@@ -43,4 +46,7 @@
             gap: 10px;
         }
     }
-} 
+    .popup-main .popup-main__content#shopping a {
+        justify-content: end;
+    }
+}
