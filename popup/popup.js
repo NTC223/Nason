@@ -6,7 +6,7 @@ const checkLogin = isLogin()
 const gTabSelect = select(Object.keys(generalData), generalData)
 const pTabSelect = select(Object.keys(productTabs), productData)
 // Giới thiệu chung
-const tabs = Object.keys(generalData).map((txt, index) => createElement({
+let tabs = Object.keys(generalData).map((txt, index) => createElement({
     type: 'div',
     className: 'item radius-button',
     attributes: {'data-id': index},
@@ -30,12 +30,13 @@ const gContent = general.querySelector('.popup-main__content')
 tabs.forEach((t, index) => {
     t.addEventListener('click', () => {
         if(t.classList.contains('select') == false) {
-            selectTab(tabs, index, gTabSelect, gContent)
+            selectTab(tabs, index, gTabSelect, gContent, 'general')
         }
     })
 })
 general.addEventListener('toggle', () => {
-    selectTab(tabs, 0, gTabSelect, gContent)
+    if (typeof rebuildGeneralTabs === 'function') rebuildGeneralTabs()
+    selectTab(tabs, 0, gTabSelect, gContent, 'general')
     document.documentElement.style.setProperty('--popup-main-height', `${gMain.clientHeight}px`)
     document.documentElement.style.setProperty('--popup-main-width', `${gMain.clientWidth}px`)
 })
@@ -101,7 +102,7 @@ const share = popup({
 'flex align-center gap20'.split(' ').forEach(i => share.querySelector('.popup-main__content').classList.add(i))
 
 // Chi tiết sản phẩm
-const underTabs = Object.keys(productTabs).map((txt, index) => createElement({
+let underTabs = Object.keys(productTabs).map((txt, index) => createElement({
     type: 'p',
     className: 'item',
     attributes: {'data-id': index},
@@ -127,15 +128,112 @@ const pContent = product.querySelector('.popup-main__content')
 underTabs.forEach((t, index) => {
     t.addEventListener('click', () => {
         if(t.classList.contains('select') == false) {
-            selectTab(underTabs, index, pTabSelect, pContent)
+            selectTab(underTabs, index, pTabSelect, pContent, 'product')
         }
     })
 })
 product.addEventListener('toggle', () => {
-    selectTab(underTabs, 0, pTabSelect, pContent)
+    if (typeof rebuildProductUnderTabs === 'function') rebuildProductUnderTabs()
+    selectTab(underTabs, 0, pTabSelect, pContent, 'product')
     product.style.setProperty('--popup-main-height', `${pMain.clientHeight}px`)
     product.style.setProperty('--popup-main-width', `${pMain.clientWidth}px`)
 })
+
+function rebuildProductUnderTabs() {
+    try {
+        const doBuild = () => {
+            const keys = Object.keys(window.productTabs || {})
+            const container = product.querySelector('.under-tab')
+            if (!container || keys.length === 0) return
+
+            if (typeof pTabSelect?.setlist === 'function') {
+                pTabSelect.setlist(keys)
+            }
+
+            const newUnderTabs = keys.map((txt, index) =>
+                createElement({
+                    type: 'p',
+                    className: 'item',
+                    attributes: { 'data-id': index },
+                    text: `
+                        <p class='content'>
+                            <img src='${iconImg[txt]}'>
+                            <span class='text'>${window.productTabs[txt]}</span>
+                        </p>
+                    `,
+                })
+            )
+
+            container.innerHTML = ''
+            newUnderTabs.forEach((el) => container.appendChild(el))
+
+            underTabs = newUnderTabs
+            underTabs.forEach((t, index) => {
+                t.addEventListener('click', () => {
+                    if (t.classList.contains('select') == false) {
+                        selectTab(underTabs, index, pTabSelect, pContent, 'product')
+                    }
+                })
+            })
+        }
+
+        if (typeof checkAndUpdateData === 'function') {
+            checkAndUpdateData(false, 'product').then(() => doBuild())
+        } else {
+            doBuild()
+        }
+    } catch (e) {
+        console.error('rebuildProductUnderTabs error', e)
+    }
+}
+
+function rebuildGeneralTabs() {
+    try {
+        const doBuild = () => {
+            const keys = Object.keys(window.generalData || {})
+            const container = general.querySelector('.popup-tab')
+            if (!container || keys.length === 0) return
+
+            if (typeof gTabSelect?.setlist === 'function') {
+                gTabSelect.setlist(keys)
+            }
+
+            const newTabs = keys.map((txt, index) =>
+                createElement({
+                    type: 'div',
+                    className: 'item radius-button',
+                    attributes: { 'data-id': index },
+                    child: [createElement({ type: 'div', text: `<p>${txt}</p>` })],
+                })
+            )
+
+            container.innerHTML = ''
+            container.appendChild(
+                createElement({
+                    type: 'div',
+                    child: newTabs,
+                })
+            )
+
+            tabs = newTabs
+            tabs.forEach((t, index) => {
+                t.addEventListener('click', () => {
+                    if (t.classList.contains('select') == false) {
+                        selectTab(tabs, index, gTabSelect, gContent, 'general')
+                    }
+                })
+            })
+        }
+
+        if (typeof checkAndUpdateData === 'function') {
+            checkAndUpdateData(false, 'general').then(() => doBuild())
+        } else {
+            doBuild()
+        }
+    } catch (e) {
+        console.error('rebuildGeneralTabs error', e)
+    }
+}
 
 main.appendChild(general)
 main.appendChild(map)

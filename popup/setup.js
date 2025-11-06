@@ -3,25 +3,55 @@ window.dataVersion = 0;
 window.lastFetchedVersion = 0;
 
 // Hàm kiểm tra và cập nhật dữ liệu từ Supabase
-async function checkAndUpdateData(forceUpdate = false) {
+// dataset: 'general' | 'product'
+async function checkAndUpdateData(forceUpdate = false, dataset = "general") {
   if (!window.sb) return null;
 
   try {
-    const { data, error } = await window.sb
-      .from("app_kv")
-      .select("value,version")
-      .eq("key", "generalData")
-      .single();
-
-    if (error) throw error;
-
-    // Chỉ cập nhật nếu có version mới hoặc force update
-    if (data?.version > window.dataVersion || forceUpdate) {
-      window.generalData = data?.value || {};
-      window.dataVersion = data?.version || 0;
-      window.lastFetchedVersion = window.dataVersion;
-      return true;
+    if (dataset === "general") {
+      const { data, error } = await window.sb
+        .from("app_kv")
+        .select("value,version")
+        .eq("key", "generalData")
+        .single();
+      if (error) throw error;
+      if (data?.version > window.dataVersion || forceUpdate) {
+        window.generalData = data?.value || {};
+        window.dataVersion = data?.version || 0;
+        window.lastFetchedVersion = window.dataVersion;
+        return true;
+      }
+      return false;
     }
+
+    if (dataset === "product") {
+      // Tải productTabs và productData
+      const [tabsRes, dataRes] = await Promise.all([
+        window.sb
+          .from("app_kv")
+          .select("value")
+          .eq("key", "productTabs")
+          .single(),
+        window.sb
+          .from("app_kv")
+          .select("value")
+          .eq("key", "productData")
+          .single(),
+      ]);
+
+      if (tabsRes.error) throw tabsRes.error;
+      if (dataRes.error) throw dataRes.error;
+
+      const nextTabs = tabsRes?.data?.value || {};
+      const nextData = dataRes?.data?.value || {};
+      const changed =
+        JSON.stringify(nextTabs) !== JSON.stringify(window.productTabs || {}) ||
+        JSON.stringify(nextData) !== JSON.stringify(window.productData || {});
+      window.productTabs = nextTabs;
+      window.productData = nextData;
+      return changed;
+    }
+
     return false;
   } catch (e) {
     console.error("Check data version error:", e);
@@ -141,20 +171,21 @@ function select(list, data) {
     setdata(newData) {
       data = newData;
     },
+    setlist(newList) {
+      list = Array.isArray(newList) ? newList : list;
+    },
   };
 }
-function selectTab(list, index, s, popup) {
+function selectTab(list, index, s, popup, dataset) {
   list[s.get()].classList.remove("select");
   s.set(index);
   list[index].classList.add("select");
 
   // Kiểm tra version trước khi render
-  checkAndUpdateData().then((hasUpdate) => {
+  checkAndUpdateData(false, dataset === "product" ? "product" : "general").then((hasUpdate) => {
     if (hasUpdate) {
-      // Nếu có update, cập nhật selector data
-      if (s?.setdata) {
-        s.setdata(window.generalData);
-      }
+      // Nếu có update, cập nhật selector data đúng nguồn
+      if (s?.setdata) s.setdata(dataset === "product" ? window.productData : window.generalData);
     }
     renderPopup(
       s.data(),
