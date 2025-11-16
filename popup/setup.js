@@ -420,7 +420,8 @@ function uploadNews() {
 }
 function seeMore(news) {
   gContent.setAttribute("id", "news-detal");
-  gContent.setAttribute("data-id", news.id);
+  // Lưu id dưới dạng string để đảm bảo nhất quán
+  gContent.setAttribute("data-id", String(news.id || ""));
 
   gContent.innerHTML = "";
   gContent.appendChild(renderInnerTab("Chi tiết", checkLogin.get()));
@@ -430,7 +431,32 @@ function addImg() {
   alert("ADD IMG? CHƯA BIẾT LÀM GÌ:)");
 }
 function write(id) {
-  const news = generalData["Tin tức"].iNews.find((i) => (i.id = id)) || {};
+  // Kiểm tra id hợp lệ
+  if (id == null || id === undefined || (typeof id === 'number' && isNaN(id))) {
+    console.error("ID không hợp lệ:", id);
+    alert("Không tìm thấy ID tin tức cần chỉnh sửa");
+    return;
+  }
+  
+  // Tìm tin tức với so sánh linh hoạt (hỗ trợ cả số và string)
+  const newsList = generalData["Tin tức"]?.iNews || [];
+  const news = newsList.find((i) => {
+    if (!i || i.id == null) return false;
+    // So sánh linh hoạt: số với số, string với string, hoặc chuyển đổi
+    return i.id === id || 
+           Number(i.id) === Number(id) || 
+           String(i.id) === String(id);
+  }) || {};
+  
+  // Kiểm tra nếu không tìm thấy tin tức
+  if (!news.id) {
+    console.error("Không tìm thấy tin tức với id:", id, "Danh sách:", newsList.map(n => ({id: n.id, title: n.title})));
+    alert("Không tìm thấy tin tức cần chỉnh sửa");
+    return;
+  }
+  
+  // Lưu id của tin tức đang chỉnh sửa vào data-edit-id để updateNews có thể sử dụng
+  gContent.setAttribute("data-edit-id", String(news.id));
   const form = {
     title: "Tạo tin tức mới",
     data: [
@@ -455,9 +481,9 @@ function write(id) {
     submit: updateNews,
   };
   const data = {
-    "news-title": news.title,
-    "news-content": news.content,
-    "news-image": news.imgs,
+    "news-title": news.title || "",
+    "news-content": news.content || "",
+    "news-image": news.imgs || [],
   };
   gContent.setAttribute("id", "");
   gContent.classList.add("form");
@@ -487,11 +513,27 @@ function updateNews() {
         ? gd["Tin tức"].iNews.slice()
         : [];
 
-    // Try to find editing target by exact title match (fallback approach)
-    let idx = list.findIndex(
-      (n) => n && typeof n.title === "string" && n.title.trim() === newTitle
-    );
-    if (idx === -1) idx = 0; // fallback to first if not found
+    // Tìm tin tức cần cập nhật bằng id từ data-edit-id
+    const editId = gContent.getAttribute("data-edit-id");
+    let idx = -1;
+    if (editId) {
+      // Chuyển đổi editId sang số nếu cần
+      const idToFind = Number(editId) || editId;
+      idx = list.findIndex(
+        (n) => n && (n.id === idToFind || n.id === Number(idToFind) || String(n.id) === String(idToFind))
+      );
+    }
+    // Nếu không tìm thấy bằng id, thử tìm bằng title (fallback)
+    if (idx === -1) {
+      idx = list.findIndex(
+        (n) => n && typeof n.title === "string" && n.title.trim() === newTitle
+      );
+    }
+    // Nếu vẫn không tìm thấy, báo lỗi thay vì fallback về index 0
+    if (idx === -1) {
+      alert("Không tìm thấy tin tức cần cập nhật");
+      return;
+    }
 
     const applyUpdate = (imageUrl) => {
       const item = list[idx] || {};

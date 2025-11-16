@@ -88,7 +88,14 @@ function renderInnerTab(tab, isLogin) {
                       type: "button",
                       events: {
                         click: () => {
-                          write(Number.parseInt(gContent.getAttribute('data-id')));
+                          const dataId = gContent.getAttribute('data-id');
+                          // Xử lý cả số và string: thử chuyển sang số, nếu không được thì giữ nguyên string
+                          let id = dataId;
+                          if (dataId != null && dataId !== "") {
+                            const numId = Number(dataId);
+                            id = !isNaN(numId) && isFinite(numId) ? numId : dataId;
+                          }
+                          write(id);
                         },
                       },
                       child: [
