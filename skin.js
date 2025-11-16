@@ -1,7 +1,7 @@
 // Garden Gnome Software - Skin
 // Pano2VR 7.1.8/20986
-// Filename: NASON.ggsk
-// Generated 2025-10-30T09:10:57
+// Filename: 
+// Generated 2025-11-16T08:24:58
 
 function pano2vrSkin(player,base) {
 	player.addVariable('floor', 1, 1.00, { ignoreInState: 0  });
@@ -484,7 +484,7 @@ function pano2vrSkin(player,base) {
 		el.ggSubElement = els;
 		el.ggId="unmute";
 		el.ggParameter={ rx:0,ry:0,a:0,sx:1,sy:1,def:'' };
-		el.ggVisible=true;
+		el.ggVisible=false;
 		el.className="ggskin ggskin_button ";
 		el.ggType='button';
 		hs ='';
@@ -493,7 +493,7 @@ function pano2vrSkin(player,base) {
 		hs+='position : absolute;';
 		hs+='right : 0px;';
 		hs+='top : 120px;';
-		hs+='visibility : inherit;';
+		hs+='visibility : hidden;';
 		hs+='width : 52px;';
 		hs+='pointer-events:auto;';
 		el.setAttribute('style',hs);
@@ -726,7 +726,7 @@ function pano2vrSkin(player,base) {
 		el.ggSubElement = els;
 		el.ggId="mute";
 		el.ggParameter={ rx:0,ry:0,a:0,sx:1,sy:1,def:'' };
-		el.ggVisible=false;
+		el.ggVisible=true;
 		el.className="ggskin ggskin_button ";
 		el.ggType='button';
 		hs ='';
@@ -735,7 +735,7 @@ function pano2vrSkin(player,base) {
 		hs+='position : absolute;';
 		hs+='right : 0px;';
 		hs+='top : 120px;';
-		hs+='visibility : hidden;';
+		hs+='visibility : inherit;';
 		hs+='width : 52px;';
 		hs+='pointer-events:auto;';
 		el.setAttribute('style',hs);
